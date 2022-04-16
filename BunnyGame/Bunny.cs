@@ -8,9 +8,11 @@ namespace BunnyGame
 {
     public class Bunny
     {
-        Game game;
+        Game bunnyGame;
 
         Texture2D bunnyTexture;
+
+        Model bunnyModel;
 
         BasicEffect bunnyEffect;
 
@@ -19,14 +21,18 @@ namespace BunnyGame
         IndexBuffer indexBuffer;
 
 
-        public Bunny(Game game)
-        { 
+        public Bunny(Game game, Matrix world)
+        {
+            this.bunnyGame = game;
+            this.bunnyTexture = game.Content.Load<Texture2D>("bunny");
+            this.bunnyModel = game.Content.Load<Model>("bunny");
+            bunnyEffect.World = world;
         }
 
 
         public void InitalizeEffect()
         {
-            bunnyEffect = new BasicEffect(game.GraphicsDevice);
+            bunnyEffect = new BasicEffect(bunnyGame.GraphicsDevice);
             bunnyEffect.World = Matrix.CreateScale(1.0f);
             bunnyEffect.View = Matrix.CreateLookAt(new Vector3(), Vector3.Zero, Vector3.Up);
             bunnyEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, game.GraphicsDevice.Viewport.AspectRatio, 0.2f, 50.0f);
@@ -43,9 +49,9 @@ namespace BunnyGame
             bunnyEffect.Projection = camera.Projection;
             bunnyEffect.CurrentTechnique.Passes[0].Apply();
 
-            game.GraphicsDevice.SetVertexBuffer(vertexBuffer);
-            game.GraphicsDevice.Indices = indexBuffer;
-            //game.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0);
+            bunnyGame.GraphicsDevice.SetVertexBuffer(vertexBuffer);
+            bunnyGame.GraphicsDevice.Indices = indexBuffer;
+            bunnyGame.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 100);
 
         }
 

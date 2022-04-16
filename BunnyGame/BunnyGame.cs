@@ -10,7 +10,6 @@ namespace BunnyGame
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Bunny bunny;
-
         BunnyCam bunnyCam;
 
 
@@ -34,7 +33,7 @@ namespace BunnyGame
 
             // TODO: use this.Content to load your game content here
 
-            bunny = Content.Load<Model>(@"bunny");
+            bunny = Content.Load<Model>("bunny");
             
         }
 
@@ -44,6 +43,7 @@ namespace BunnyGame
                 Exit();
 
             // TODO: Add your update logic here
+            bunnyCam.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -53,6 +53,9 @@ namespace BunnyGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+            bunny.Draw(bunnyCam);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
