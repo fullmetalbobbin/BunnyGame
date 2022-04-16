@@ -21,14 +21,13 @@ namespace BunnyGame
 
         IndexBuffer indexBuffer;
 
-        //public Model BunnyModel;
-
 
         public Bunny(Game game, Matrix world)
         {
             this.bunnyGame = game;
             //this.bunnyTexture = game.Content.Load<Texture2D>("bunny");
             //this.bunnyModel = content.Load<Model>("");
+            InitalizeEffect();
             bunnyEffect.World = world;
         }
 
@@ -37,6 +36,11 @@ namespace BunnyGame
             bunnyModel = content.Load<Model>("bunny");
         }
 
+        public void InitalizeVertices()
+        { }
+
+        public void InitalizeIndices()
+        { }
 
         public void InitalizeEffect()
         {
@@ -57,9 +61,9 @@ namespace BunnyGame
             bunnyEffect.Projection = camera.Projection;
             bunnyEffect.CurrentTechnique.Passes[0].Apply();
 
-            bunnyGame.GraphicsDevice.SetVertexBuffer(vertexBuffer);
-            bunnyGame.GraphicsDevice.Indices = indexBuffer;
-            bunnyGame.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 100);
+            //bunnyGame.GraphicsDevice.SetVertexBuffer(vertexBuffer);
+            //bunnyGame.GraphicsDevice.Indices = indexBuffer;
+            //bunnyGame.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 100);
 
         }
 
