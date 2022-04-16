@@ -11,24 +11,26 @@ namespace BunnyGame
     {
         Game bunnyGame;
 
-        Texture2D bunnyTexture;
+        //Texture2D bunnyTexture;
 
         Model bunnyModel;
 
-        BasicEffect bunnyEffect;
+        Effect bunnyEffect;
 
         VertexBuffer vertexBuffer;
 
         IndexBuffer indexBuffer;
 
+        private VertexPositionColor[] vertices;
 
         public Bunny(Game game, Matrix world)
         {
             this.bunnyGame = game;
             //this.bunnyTexture = game.Content.Load<Texture2D>("bunny");
             //this.bunnyModel = content.Load<Model>("");
-            InitalizeEffect();
-            bunnyEffect.World = world;
+            InitalizeVertices();
+            //InitalizeEffect();
+            //bunnyEffect.World = world;
         }
 
         public void LoadContent(ContentManager content)
@@ -37,11 +39,33 @@ namespace BunnyGame
         }
 
         public void InitalizeVertices()
-        { }
+        {
+            //number of vertices  24578
+            //number of polygons  24576
+
+            vertices = new VertexPositionColor[5];
+            // TODO: Add your initialization logic here
+
+            vertices[0] = new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), Color.Plum);
+            vertices[1] = new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0), Color.LightPink);
+            vertices[2] = new VertexPositionColor(new Vector3(0.5f, 0.5f, 0), Color.DeepPink);
+            vertices[3] = new VertexPositionColor(new Vector3(0.5f, -0.5f, 0), Color.LavenderBlush);
+            vertices[4] = new VertexPositionColor(new Vector3(0.7f, 0.5f, 0.5f), Color.MediumPurple);
+
+            vertexBuffer = new VertexBuffer(bunnyGame.GraphicsDevice, VertexPositionColor.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly);
+            vertexBuffer.SetData(vertices);
+
+            RasterizerState state = new RasterizerState();
+            state.CullMode = CullMode.CullClockwiseFace;
+            state.FillMode = FillMode.WireFrame;
+            bunnyGame.GraphicsDevice.RasterizerState = state;
+
+        }
 
         public void InitalizeIndices()
         { }
 
+        /*
         public void InitalizeEffect()
         {
             bunnyEffect = new BasicEffect(bunnyGame.GraphicsDevice);
@@ -55,15 +79,26 @@ namespace BunnyGame
 
         }
 
+        */
+
         public void Draw(ICamera camera)
         {
-            bunnyEffect.View = camera.View;
-            bunnyEffect.Projection = camera.Projection;
-            bunnyEffect.CurrentTechnique.Passes[0].Apply();
+            //bunnyEffect.View = camera.View;
+            //bunnyEffect.Projection = camera.Projection;
+           // bunnyEffect.CurrentTechnique.Passes[0].Apply();
 
             //bunnyGame.GraphicsDevice.SetVertexBuffer(vertexBuffer);
             //bunnyGame.GraphicsDevice.Indices = indexBuffer;
             //bunnyGame.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 100);
+
+
+            bunnyEffect.CurrentTechnique = bunnyEffect.Techniques["Pretransformed"];
+            foreach (EffectPass e in bunnyEffect.CurrentTechnique.Passes)
+            {
+                e.Apply();
+                bunnyGame.GraphicsDevice.SetVertexBuffer(vertexBuffer);
+                bunnyGame.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleStrip, vertices, 0, vertices.Length - 2);
+            }
 
         }
 

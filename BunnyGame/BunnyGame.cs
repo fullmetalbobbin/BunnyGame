@@ -59,6 +59,8 @@ namespace BunnyGame
             bunny.Draw(bunnyCam);
             _spriteBatch.End();
 
+            
+
             base.Draw(gameTime);
         }
     }
