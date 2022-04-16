@@ -21,13 +21,20 @@ namespace BunnyGame
 
         IndexBuffer indexBuffer;
 
+        //public Model BunnyModel;
+
 
         public Bunny(Game game, Matrix world)
         {
             this.bunnyGame = game;
-            this.bunnyTexture = game.Content.Load<Texture2D>("bunny");
-            this.bunnyModel = game.Content.Load<Model>("bunny");
+            //this.bunnyTexture = game.Content.Load<Texture2D>("bunny");
+            //this.bunnyModel = content.Load<Model>("");
             bunnyEffect.World = world;
+        }
+
+        public void LoadContent(ContentManager content)
+        {
+            bunnyModel = content.Load<Model>("bunny");
         }
 
 
@@ -36,7 +43,7 @@ namespace BunnyGame
             bunnyEffect = new BasicEffect(bunnyGame.GraphicsDevice);
             bunnyEffect.World = Matrix.CreateScale(1.0f);
             bunnyEffect.View = Matrix.CreateLookAt(new Vector3(), Vector3.Zero, Vector3.Up);
-            bunnyEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, game.GraphicsDevice.Viewport.AspectRatio, 0.2f, 50.0f);
+            bunnyEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, bunnyGame.GraphicsDevice.Viewport.AspectRatio, 0.2f, 50.0f);
             bunnyEffect.TextureEnabled = true;
             bunnyEffect.Texture = bunnyTexture;
             bunnyEffect.LightingEnabled = true;

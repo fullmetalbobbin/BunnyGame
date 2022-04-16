@@ -10,7 +10,7 @@ namespace BunnyGame
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Bunny bunny;
-        BunnyCam bunnyCam;
+        private BunnyCam bunnyCam;
 
 
         public BunnyGame()
@@ -23,6 +23,9 @@ namespace BunnyGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            bunny = new Bunny(this, Matrix.Identity);
+
+            bunnyCam = new BunnyCam(this, new Vector3(10, 10, 10));
 
             base.Initialize();
         }
@@ -32,9 +35,8 @@ namespace BunnyGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            bunny.LoadContent(Content);
 
-            bunny = Content.Load<Model>("bunny");
-            
         }
 
         protected override void Update(GameTime gameTime)
